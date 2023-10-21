@@ -33,10 +33,11 @@ sudo cp -r /etc/postfix ~/mailbackup/postfix
 sudo cp -r /etc/nginx ~/mailbackup/nginx
 
 # Move new files
-sudo find "$(pwd)/dovecot" -type f -exec mv {} "/etc/dovecot" \;
-sudo find "$(pwd)/postfix" -type f -exec mv {} "/etc/postfix" \;
-sudo find "$(pwd)/nginx" -type f -exec mv {} "/etc/nginx" \;
+sudo rsync -av --remove-source-files "$(pwd)/dovecot" "/etc/"
+sudo rsync -av --remove-source-files "$(pwd)/postfix" "/etc/"
+sudo rsync -av --remove-source-files "$(pwd)/nginx" "/etc/"
 sudo mv $(pwd)/quota-warning.sh /usr/local/bin/quota-warning.sh
+sudo rm /var/www/html/postfixadmin/config.inc.php
 sudo mv $(pwd)/postfixadmin /var/www/html/postfixadmin/config.inc.php
 
 
