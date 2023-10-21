@@ -34,10 +34,10 @@ sudo cp -r /etc/nginx ~/mailbackup/nginx
 
 # Move new files
 sudo find "$(pwd)/dovecot" -type f -exec mv {} "/etc/dovecot" \;
-sudo find "$(pwd)/parkwebmail/postfix" -type f -exec mv {} "/etc/postfix" \;
-sudo find "$(pwd)/parkwebmail/nginx" -type f -exec mv {} "/etc/nginx" \;
-sudo mv $(pwd)/parkwebmail/quota-warning.sh /usr/local/bin/quota-warning.sh
-sudo mv $(pwd)/parkwebmail/postfixadmin /var/www/html/postfixadmin/config.inc.php
+sudo find "$(pwd)/postfix" -type f -exec mv {} "/etc/postfix" \;
+sudo find "$(pwd)/nginx" -type f -exec mv {} "/etc/nginx" \;
+sudo mv $(pwd)/quota-warning.sh /usr/local/bin/quota-warning.sh
+sudo mv $(pwd)/postfixadmin /var/www/html/postfixadmin/config.inc.php
 
 
 # MariaDB
@@ -70,14 +70,16 @@ sudo chmod u=rw,g=r,o= /etc/postfix/sql/mysql-*.cf
 ## DOVECOT
 sudo groupadd -g 5000 vmail
 sudo useradd -g vmail -u 5000 vmail -d /var/vmail -m
-sudochown -R vmail:vmail /var/vmail
+sudo chown -R vmail:vmail /var/vmail
 sudo chown root:root /etc/dovecot/dovecot-sql.conf.ext
 sudo chmod go= /etc/dovecot/dovecot-sql.conf.ext
 sudo chmod +x /usr/local/bin/quota-warning.sh
 sudo gpasswd -a www-data dovecot
-sudo setfacl -R -m u:www-data:rwx /var/run/dovecot/stats-reader /var/run/dovecot/stats-writer
+sudo chown www-data:www-data /var/run/dovecot/stats-reader /var/run/dovecot/stats-writer
+sudo chmod u=rwx /var/run/dovecot/stats-reader /var/run/dovecot/stats-writer
 
 #SSL
+sudo mkdir /var/www/_letsencrypt
 sudo certbot certonly --webroot -d $domain --email hadrien@zertanium.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal
 
 ## End of script
@@ -90,8 +92,8 @@ echo "------------------------------------------------"
 
 sudo cat << EOF >> ~/mailbackup/mail.txt
 ------------------------------------------------
-Mailadmin Pass: $(mailadmin_pass)
-Mailserver Pass: $(mailserver_pass)
-Domain Name:  $(domain)
+Mailadmin Pass: $mailadmin_pass
+Mailserver Pass: $mailserver_pass
+Domain Name:  $domain
 ------------------------------------------------
 EOF
