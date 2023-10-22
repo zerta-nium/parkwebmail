@@ -21,16 +21,12 @@ readme_directory = no
 # fresh installs.
 compatibility_level = 3.6
 
-# Restrictions
-smtpd_recipient_restrictions=reject_unauth_destination,"check_policy_service unix:private/quota-status"
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-
 # General
 myhostname = Mail.home
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
-mydestination = $myhostname, mail.parkweb.ch, Mail, localhost.localdomain, localhost
+mydestination = $myhostname, localhost.$mydomain, localhost
 relayhost = 
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
@@ -65,6 +61,7 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 
 #Postfix to Dovecot
 virtual_transport=lmtp:unix:private/dovecot-lmtp
-
-# Forged sender addresses
-smtpd_sender_login_maps=mysql:/etc/postfix/sql/mysql-email2email.cf
+virtual_mailbox_base = /var/vmail
+virtual_minimum_uid = 5000
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000

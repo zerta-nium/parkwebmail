@@ -3,6 +3,7 @@
 read -p "Mailadmin Pass: " mailadmin_pass
 read -p "Mailserver Pass: " mailserver_pass
 read -p "Domain Name: " domain
+#### IP not working
 ip = $(hostname  -I | cut -f1 -d' ')
 
 
@@ -39,6 +40,8 @@ sudo rsync -av --remove-source-files "$(pwd)/dovecot" "/etc/"
 sudo rsync -av --remove-source-files "$(pwd)/postfix" "/etc/"
 sudo rsync -av --remove-source-files "$(pwd)/nginx" "/etc/"
 sudo mv $(pwd)/quota-warning.sh /usr/local/bin/quota-warning.sh
+
+#### FILE IS NOT MOVING
 sudo mv $(pwd)/postfixadmin/config.inc.php /var/www/html/config.inc.php
 
 
