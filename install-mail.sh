@@ -13,9 +13,9 @@ apt update
 apt upgrade
 sudo add-apt-repository ppa:ondrej/nginx
 sudo add-apt-repository ppa:ondrej/php
-sudo apt install nginx php8.2-fpm php8.2-common php8.2-mysql php8.2-xml php8.2-xmlrpc php8.2-curl php8.2-gd php8.2-imagick php8.2-cli php8.2-dev php8.2-imap php8.2-mbstring php8.2-opcache php8.2-redis php8.2-soap php8.2-zip php8.2-cli -y
-sudo apt install mariadb-server postfix postfix-mysql dovecot-core dovecot-mysql dovecot-imapd dovecot-lmtpd dovecot-sieve dovecot-managesieved rspamd fail2ban redis certbot -y
-sudo apt install opendkim opendkim-tools postfix-policyd-spf-python postfix-pcre
+sudo apt install -y nginx php8.2-fpm php8.2-common php8.2-mysql php8.2-xml php8.2-xmlrpc php8.2-curl php8.2-gd php8.2-imagick php8.2-cli php8.2-dev php8.2-imap php8.2-mbstring php8.2-opcache php8.2-redis php8.2-soap php8.2-zip php8.2-cli
+sudo apt install -y mariadb-server postfix postfix-mysql dovecot-core dovecot-mysql dovecot-imapd dovecot-lmtpd dovecot-sieve dovecot-managesieved rspamd fail2ban redis certbot
+sudo apt install -y opendkim opendkim-tools postfix-policyd-spf-python postfix-pcre
 
 ## Postfix Admin
 wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.3.11.tar.gz
