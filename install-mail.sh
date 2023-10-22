@@ -42,7 +42,7 @@ sudo rsync -av --remove-source-files "$(pwd)/nginx" "/etc/"
 sudo mv $(pwd)/quota-warning.sh /usr/local/bin/quota-warning.sh
 
 #### FILE IS NOT MOVING
-sudo mv $(pwd)/postfixadmin/config.inc.php /var/www/html/config.inc.php
+sudo mv $(pwd)/postfixadmin/config.inc.php /var/www/html/postfixadmin/config.inc.php
 
 
 # MariaDB

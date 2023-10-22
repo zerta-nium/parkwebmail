@@ -200,7 +200,7 @@ $CONF['smtp_sendmail_tls'] = 'NO';
 // - php_crypt PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA512-CRYPT}
 //
 // sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512) (no dovecot dependency; should support migration from md5crypt)
-$CONF['encrypt'] = 'php_crypt:BLOWFISH';
+$CONF['encrypt'] = 'ARGON2I';
 
 // In what flavor should courier-authlib style passwords be encrypted?
 // (only used if $CONF['encrypt'] == 'authlib')
