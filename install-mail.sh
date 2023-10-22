@@ -38,7 +38,8 @@ sudo rsync -av --remove-source-files "$(pwd)/postfix" "/etc/"
 sudo rsync -av --remove-source-files "$(pwd)/nginx" "/etc/"
 sudo mv $(pwd)/quota-warning.sh /usr/local/bin/quota-warning.sh
 sudo rm /var/www/html/postfixadmin/config.inc.php
-sudo mv $(pwd)/postfixadmin /var/www/html/postfixadmin/config.inc.php
+sudo mv $(pwd)/postfixadmin /var/www/html/config.inc.php
+sudo mv $(pwd)/postfixadmin.conf /etc/php/8.2/fpm/pool.d/postfixadmin.conf
 
 
 # MariaDB
@@ -59,14 +60,14 @@ sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_alias
 sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_alias_domain_maps.cf
 sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_alias_maps.cf
 sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_domains_maps.cf
-sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sqlmysql_virtual_mailbox_maps.cf
-sudo sed -i "s/changememail/$mailadmin_pass/g" /etc/postfix/sqlmysql_virtual_mailbox_maps.cf
-sudo sed -i "s/changeme/$domain/g" /etc/nginx/sites-available/postfixadmin.conf
+sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_mailbox_maps.cf
+sudo sed -i "s/changememail/$mailadmin_pass/g" /var/www/html/postfixadmin/config.inc.php
+sudo sed -i "s/changeme/mail.parkweb.intra/g" /etc/nginx/sites-available/postfixadmin.conf
 
 ## Postfix
 sudo chmod 0640 /etc/postfix/sql/*
-sudo chgrp postfix /etc/postfix/sql/mysql-*.cf
-sudo chmod u=rw,g=r,o= /etc/postfix/sql/mysql-*.cf
+sudo chgrp postfix /etc/postfix/sql/*.cf
+sudo chmod u=rw,g=r,o= /etc/postfix/sql/*.cf
 
 ## DOVECOT
 sudo groupadd -g 5000 vmail
@@ -82,6 +83,7 @@ sudo chmod u=rwx /var/run/dovecot/stats-reader /var/run/dovecot/stats-writer
 #SSL
 sudo mkdir /var/www/_letsencrypt
 sudo certbot certonly --webroot -d $domain --email hadrien@zertanium.com -w /var/www/_letsencrypt -n --agree-tos --force-renewal
+sudo ln -s /etc/nginx/sites-available/postfixadmin.conf /etc/nginx/sites-enabled/
 
 ## End of script
 echo "The mail server is installed."
