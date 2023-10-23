@@ -3,9 +3,6 @@
 read -p "Mailadmin Pass: " mailadmin_pass
 read -p "Mailserver Pass: " mailserver_pass
 read -p "Domain Name: " domain
-#### IP not working
-ip = $(hostname  -I | cut -f1 -d' ')
-
 
 # Hostname
 hostnamectl set-hostname $domain
@@ -40,8 +37,6 @@ sudo rsync -av --remove-source-files "$(pwd)/dovecot" "/etc/"
 sudo rsync -av --remove-source-files "$(pwd)/postfix" "/etc/"
 sudo rsync -av --remove-source-files "$(pwd)/nginx" "/etc/"
 sudo mv $(pwd)/quota-warning.sh /usr/local/bin/quota-warning.sh
-
-#### FILE IS NOT MOVING
 sudo mv $(pwd)/postfixadmin/config.inc.php /var/www/html/postfixadmin/config.inc.php
 
 
@@ -65,12 +60,13 @@ sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_alias
 sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_domains_maps.cf
 sudo sed -i "s/changeme/$mailserver_pass/g" /etc/postfix/sql/mysql_virtual_mailbox_maps.cf
 sudo sed -i "s/changememail/$mailadmin_pass/g" /var/www/html/postfixadmin/config.inc.php
-sudo sed -i "s/changeme/$ip/g" /etc/nginx/sites-available/postfixadmin.conf
+sudo sed -i "s/changeme/$domain/g" /etc/nginx/sites-available/postfixadmin.conf
 
 ## Postfix
 sudo chmod 0640 /etc/postfix/sql/*
 sudo chgrp postfix /etc/postfix/sql/*.cf
 sudo chmod u=rw,g=r,o= /etc/postfix/sql/*.cf
+sudo gpasswd -a postfix opendkim
 
 ## DOVECOT
 sudo groupadd -g 5000 vmail

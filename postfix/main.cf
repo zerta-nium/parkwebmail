@@ -22,7 +22,7 @@ readme_directory = no
 compatibility_level = 3.6
 
 # General
-myhostname = Mail.home
+myhostname = mail.parkweb.ch
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
@@ -65,3 +65,11 @@ virtual_mailbox_base = /var/vmail
 virtual_minimum_uid = 5000
 virtual_uid_maps = static:5000
 virtual_gid_maps = static:5000
+
+# SPF Policy Agent
+policyd-spf_time_limit = 3600
+smtpd_recipient_restrictions =
+   permit_mynetworks,
+   permit_sasl_authenticated,
+   reject_unauth_destination,
+   check_policy_service unix:private/policyd-spf
